@@ -6,6 +6,7 @@ class GamesController < ApplicationController
   end
 
   def show
+    render partial: 'game', locals: { game: @game }
   end
 
   def create
@@ -29,7 +30,11 @@ class GamesController < ApplicationController
     @game.destroy
     render json: { message: 'Removed' }, status: :ok
   end
-
+  def form
+    @game = Game.new
+    render partial: 'form'
+  end
+  
   private 
 
   def set_game 
@@ -41,8 +46,4 @@ class GamesController < ApplicationController
     params.require(:game).permit(:name, :description)
   end
 
-  def form
-    @game = Game.new
-    render partial: 'form'
-  end
 end

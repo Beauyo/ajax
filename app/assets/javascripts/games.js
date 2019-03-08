@@ -1,5 +1,6 @@
 var currentGame = {}
 var showForm = false
+var editingGame = {}
 
 $(document).ready(function() {
 
@@ -22,11 +23,11 @@ $(document).ready(function() {
         }
     }
 
-    // e below represents an event we are passing
+    
     $(document).on('submit', '#game-form form', function(e){
-        // this prevents the page from reloading when submitted
+       
         e.preventDefault()
-        // necessary step to take form data to our rails application
+        
         var data = $(this).serializeArray()
         $.ajax({
             url: '/games',
@@ -56,6 +57,19 @@ $(document).ready(function() {
                 var li = '<li data-character-id="' + char.id + '">' + char.name + ' - ' + char.power + '</li>'
                 list.append(li)
             })
+            function getGame(id) {
+                $.ajax({
+                  url: '/games/' + id,
+                  method: 'GET'
+                }).done( function(game) {
+                  $('#games-list').append(game);
+                });
+              }
+
+              $(document).on('click', '#edit-game', function(){
+                  var editingGame = ('#edit-game')
+                  toggle()
+              })
         })
     })
  })
